@@ -66,7 +66,7 @@ func LoginUser(username string, password string) (string, error) {
 	if !checkPasswordHashed(user.Password, password) {
 		return "", errors.New("invalid password")
 	}
-	token, err := createToken(username, user.CID)
+	token, err := createToken(username, user.UserCID)
 	if err != nil {
 		return "", err
 	}
@@ -96,7 +96,7 @@ func SignupUser(email, username, password string) (string, error) {
 		Email:    email,
 		Username: username,
 		Password: hashedPassword,
-		CID:      getCIDForUser(),
+		UserCID:  getCIDForUser(),
 	}
 	err = models.CreateModelInstance(&user)
 	if err != nil {
@@ -107,13 +107,13 @@ func SignupUser(email, username, password string) (string, error) {
 	}
 	err = models.CreateModelInstance(&usermd)
 	if err != nil {
-		return user.CID, errors.New("error creating user metadata")
+		return user.UserCID, errors.New("error creating user metadata")
 	}
 	err = CreateDirForUser(&user)
 	if err != nil {
-		return user.CID, errors.New("error creating user directory")
+		return user.UserCID, errors.New("error creating user directory")
 	}
-	return user.CID, nil
+	return user.UserCID, nil
 }
 
 func VerifyToken(token string) (User, error) {

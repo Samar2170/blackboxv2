@@ -11,7 +11,10 @@ import (
 	"github.com/gorilla/mux"
 )
 
+var host = "localhost"
+
 func RunServer() {
+
 	mux := mux.NewRouter()
 
 	v1 := mux.PathPrefix("api/v1").Subrouter()

@@ -9,14 +9,9 @@ import (
 	"gorm.io/gorm"
 )
 
-func init() {
-	db.DB.AutoMigrate(User{}, UserMetaData{}, UserSession{})
-}
-
 type User struct {
-	*gorm.Model
-	ID       uint   `gorm:"primaryKey"`
-	CID      string `gorm:"uniqueIndex:idx_cid"`
+	ID       uint
+	UserCID  string `gorm:"uniqueIndex:idx_cid"`
 	Email    string `gorm:"unique"`
 	Username string `gorm:"uniqueIndex:idx_username"`
 	Password string
@@ -53,7 +48,7 @@ func GetUserByCID(cid string) (*User, error) {
 
 type UserMetaData struct {
 	*gorm.Model
-	ID             uint `gorm:"PrimaryIndex"`
+	ID             uint
 	User           User
 	UserID         uint  `gorm:"index"`
 	DirCreated     bool  `gorm:"default:false"`

@@ -29,7 +29,7 @@ func TokenMiddleware(next http.Handler) http.Handler {
 			response.UnauthorizedResponse(w, "Invalid token")
 			return
 		}
-		r.Header.Set("user_cid", user.CID)
+		r.Header.Set("user_cid", user.UserCID)
 		next.ServeHTTP(w, r)
 	})
 }
