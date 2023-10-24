@@ -16,7 +16,7 @@ var signingKey []byte
 
 func init() {
 	signingKey = []byte(config.Config.SigningKey)
-	db.DB.AutoMigrate(&User{}, &UserSession{})
+	db.DB.AutoMigrate(&User{}, &UserSession{}, UserMetaData{})
 }
 
 type UserClaim struct {

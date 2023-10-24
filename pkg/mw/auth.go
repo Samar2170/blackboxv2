@@ -8,8 +8,8 @@ import (
 )
 
 var ExemptedPaths = []string{
-	"/api/v1/signup",
-	"/api/v1/login",
+	"/api/v1/signup/",
+	"/api/v1/login/",
 }
 
 func TokenMiddleware(next http.Handler) http.Handler {

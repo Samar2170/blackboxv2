@@ -15,8 +15,7 @@ var DBName = "blackboxv2"
 
 func connect() {
 	var err error
-	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
-	defer cancel()
+	ctx, _ := context.WithTimeout(context.Background(), 20*time.Second)
 
 	MongoClient, err = mongo.Connect(ctx, options.Client().ApplyURI(ConnString))
 	if err != nil {
