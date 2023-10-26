@@ -11,6 +11,7 @@ import (
 func main() {
 	// ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	// defer cancel()
+	//  testing git commit on mac
 	args := os.Args[1:]
 	if len(args) == 0 {
 		panic("No arguments provided")
