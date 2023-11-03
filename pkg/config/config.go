@@ -14,10 +14,16 @@ type Configuration struct {
 	Environment string         `yaml:"environment"`
 	Database    DatabaseConfig `yaml:"database"`
 	SigningKey  string         `yaml:"signing_key"`
+	// MongoConnString string         `yaml:"mongo_conn_string"`
+	MongoDB MongoDBConfig `yaml:"mongodb"`
 }
 
 type DatabaseConfig struct {
 	File string `yaml:"file"`
+}
+type MongoDBConfig struct {
+	ConnString string `yaml:"conn_string"`
+	Name       string `yaml:"name"`
 }
 
 func loadConfigFile() {

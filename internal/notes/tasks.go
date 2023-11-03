@@ -7,8 +7,10 @@ import (
 	"bufio"
 	"context"
 	"fmt"
+	"io"
 	"mime/multipart"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -29,9 +31,19 @@ func SaveFile(file multipart.File, fileHeader *multipart.FileHeader, userCID str
 	if err != nil {
 		return err
 	}
-	newFilePath := internal.UploadDir + umd.DirName + "/notes/" + newFileName
+	newFilePath := filepath.Join(internal.UploadDir, umd.DirName, "/notes/", newFileName)
 
-	_, err = os.Create(newFilePath)
+	newFile, err := os.Create(newFilePath)
+	if err != nil {
+		return err
+	}
+	defer newFile.Close()
+	writer := io.Writer(newFile)
+	reader := bufio.NewReader(file)
+	_, err = reader.WriteTo(writer)
+	if err != nil {
+		return err
+	}
 
 	fd := NoteFileMetaData{
 		OgFileName: fileHeader.Filename,

@@ -5,3 +5,5 @@ uploads/**
 
 /.vscode/
 logs/**
+
+__test__data/**

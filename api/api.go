@@ -3,8 +3,10 @@ package api
 import (
 	"blackbox-v2/internal/notes"
 	"blackbox-v2/internal/userservice"
+	"blackbox-v2/pkg/mongoc"
 	"blackbox-v2/pkg/mw"
 	"blackbox-v2/pkg/response"
+	"context"
 	"encoding/json"
 	"net/http"
 
@@ -105,7 +107,7 @@ func uploadNotes(w http.ResponseWriter, r *http.Request) {
 	}
 	err = notes.SaveFile(file, fileHeader, userCid)
 	if err != nil {
-		response.InternalServerErrorResponse(w, "Error saving file"+err.Error())
+		response.InternalServerErrorResponse(w, "Error saving file  "+err.Error())
 		return
 	}
 	response.SuccessResponse(w, "File uploaded successfully")
@@ -113,4 +115,14 @@ func uploadNotes(w http.ResponseWriter, r *http.Request) {
 }
 
 func Shutdown() {
+}
+
+func healthCheck(w http.ResponseWriter, r *http.Request) {
+	err := mongoc.MongoClient.Ping(context.Background(), nil)
+	if err != nil {
+		response.InternalServerErrorResponse(w, "Mongo setup failing")
+		return
+	}
+	response.SuccessResponse(w, "Looks good")
+	return
 }
