@@ -6,7 +6,6 @@ import (
 	"blackbox-v2/pkg/utils"
 	"bufio"
 	"context"
-	"fmt"
 	"io"
 	"mime/multipart"
 	"os"
@@ -93,12 +92,31 @@ func parseNoteFile(nmd NoteFileMetaData) error {
 	}
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
+	lines := make([]string, 0)
 	for scanner.Scan() {
 		line := scanner.Text()
-		fmt.Println(line)
+		lines = append(lines, line)
 	}
 	if err := scanner.Err(); err != nil {
 		return err
 	}
-	return nil
+	note := Note{
+		Heading:   lines[0],
+		Text:      strings.Join(lines[1:], "\n"),
+		UserCID:   nmd.UserCID,
+		CID:       nmd.NoteCID,
+		CreatedAt: nmd.CreatedAt,
+	}
+	err = note.create()
+	if err != nil {
+		return err
+	}
+	nmd.Parsed = true
+	opts := options.FindOneAndUpdate()
+	filter := bson.D{{"_id", nmd.ID}}
+	update := bson.D{{"$set", bson.D{{"parsed", true}}}}
+	var updatedDoc bson.M
+	err = NotesFileMetaDataCollection.FindOneAndUpdate(context.Background(), filter, update, opts).Decode(&updatedDoc)
+
+	return err
 }

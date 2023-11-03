@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func init() {
@@ -17,7 +18,7 @@ var NotesCollection = mongoc.Database.Collection("notes")
 var NotesFileMetaDataCollection = mongoc.Database.Collection("notes_file_metadata")
 
 type NoteFileMetaData struct {
-	ID         uint
+	ID         primitive.ObjectID `bson:"_id,omitempty"`
 	OgFileName string
 	FilePath   string
 	UserCID    string

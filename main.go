@@ -2,6 +2,7 @@ package main
 
 import (
 	"blackbox-v2/api"
+	"blackbox-v2/internal/notes"
 	"blackbox-v2/pkg/mongoc"
 	"context"
 	"os"
@@ -21,6 +22,8 @@ func main() {
 	} else if args[0] == "server" {
 		api.RunServer()
 		// HandleDisconnections(ctx)
+	} else if args[0] == "dev" {
+		dev()
 	} else {
 		panic("Invalid argument")
 	}
@@ -34,4 +37,12 @@ func HandleDisconnections(ctx context.Context) {
 		wg.Done()
 	}()
 	wg.Wait()
+}
+
+func dev() {
+
+	err := notes.ParseNotes()
+	if err != nil {
+		panic(err)
+	}
 }

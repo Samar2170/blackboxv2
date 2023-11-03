@@ -28,6 +28,9 @@ func RunServer() {
 	uploadNotesHandler := http.HandlerFunc(uploadNotes)
 	v1.Handle("/upload/notes/", uploadNotesHandler).Methods("POST")
 
+	healthCheckHandler := http.HandlerFunc(healthCheck)
+	v1.Handle("/health/", healthCheckHandler).Methods("GET")
+
 	wrappedMux := mw.LogRequest(mux)
 	wrappedMux = mw.TokenMiddleware(wrappedMux)
 	mw.LogIt("Server running on " + host + ":8080")
