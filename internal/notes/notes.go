@@ -47,7 +47,7 @@ func (n *NoteFileMetaData) create() error {
 }
 
 type Note struct {
-	ID      uint
+	ID      primitive.ObjectID `bson:"_id,omitempty"`
 	Heading string
 	Text    string
 	UserCID string

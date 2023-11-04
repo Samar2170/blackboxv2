@@ -3,6 +3,7 @@ package main
 import (
 	"blackbox-v2/api"
 	"blackbox-v2/internal/notes"
+	"blackbox-v2/jobber"
 	"blackbox-v2/pkg/mongoc"
 	"context"
 	"os"
@@ -20,7 +21,7 @@ func main() {
 	if args[0] == "setup" {
 		setup()
 	} else if args[0] == "server" {
-		api.RunServer()
+		StartServer()
 		// HandleDisconnections(ctx)
 	} else if args[0] == "dev" {
 		dev()
@@ -45,4 +46,19 @@ func dev() {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func StartServer() {
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		api.RunServer()
+		wg.Done()
+	}()
+	wg.Add(1)
+	go func() {
+		jobber.StartCronServer()
+		wg.Done()
+	}()
+	wg.Wait()
 }

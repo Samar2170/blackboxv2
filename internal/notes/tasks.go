@@ -13,6 +13,7 @@ import (
 	"strings"
 
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
@@ -69,6 +70,7 @@ func ParseNotes() error {
 	}
 	for _, result := range results {
 		noteMds = append(noteMds, NoteFileMetaData{
+			ID:         result["_id"].(primitive.ObjectID),
 			OgFileName: result["og_file_name"].(string),
 			FilePath:   result["file_path"].(string),
 			UserCID:    result["user_cid"].(string),
