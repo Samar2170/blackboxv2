@@ -19,14 +19,14 @@ var NotesFileMetaDataCollection = mongoc.Database.Collection("notes_file_metadat
 
 type NoteFileMetaData struct {
 	ID         primitive.ObjectID `bson:"_id,omitempty"`
-	OgFileName string
-	FilePath   string
-	UserCID    string
-	NoteCID    string
-	Parsed     bool
+	OgFileName string             `bson:"og_file_name"`
+	FilePath   string             `bson:"file_path"`
+	UserCID    string             `bson:"user_cid"`
+	NoteCID    string             `bson:"note_cid"`
+	Parsed     bool               `bson:"parsed"`
 
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	CreatedAt time.Time `bson:"created_at"`
+	UpdatedAt time.Time `bson:"updated_at"`
 }
 
 func (n *NoteFileMetaData) toBson() bson.M {
@@ -48,13 +48,13 @@ func (n *NoteFileMetaData) create() error {
 
 type Note struct {
 	ID      primitive.ObjectID `bson:"_id,omitempty"`
-	Heading string
-	Text    string
-	UserCID string
-	CID     string
+	Heading string             `bson:"heading"`
+	Text    string             `bson:"text"`
+	UserCID string             `bson:"user_cid"`
+	CID     string             `bson:"cid"`
 
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	CreatedAt time.Time `bson:"created_at"`
+	UpdatedAt time.Time `bson:"updated_at"`
 }
 
 func (n *Note) toBson() bson.M {

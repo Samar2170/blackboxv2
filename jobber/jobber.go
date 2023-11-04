@@ -12,7 +12,7 @@ func StartCronServer() {
 	t := time.Now()
 	logging.CronLogger.Println("Cron server started at ", t)
 	s := gocron.NewScheduler(time.UTC)
-	s.Every(2).Minute().Do(func() {
+	s.Every(2).Hour().Do(func() {
 		logging.CronLogger.Println("Parsing notes")
 		err := notes.ParseNotes()
 		if err != nil {
