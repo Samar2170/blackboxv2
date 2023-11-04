@@ -1,7 +1,6 @@
 package notes
 
 import (
-	"blackbox-v2/pkg/db"
 	"blackbox-v2/pkg/mongoc"
 	"context"
 	"time"
@@ -9,10 +8,6 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-
-func init() {
-	db.DB.AutoMigrate(&Note{}, &NoteFileMetaData{})
-}
 
 var NotesCollection = mongoc.Database.Collection("notes")
 var NotesFileMetaDataCollection = mongoc.Database.Collection("notes_file_metadata")

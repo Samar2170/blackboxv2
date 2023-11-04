@@ -30,6 +30,13 @@ func RunServer() {
 	getNoteHandler := http.HandlerFunc(getNote)
 	v1.Handle("/get/note/{id}", getNoteHandler).Methods("GET")
 
+	uploadFileHandler := http.HandlerFunc(UploadFile)
+	v1.Handle("/upload/file/", uploadFileHandler).Methods("POST")
+	listFileHandler := http.HandlerFunc(listFiles)
+	v1.Handle("/list/file/", listFileHandler).Methods("GET")
+	getFileHandler := http.HandlerFunc(getFile)
+	v1.Handle("/get/file/{id}", getFileHandler).Methods("GET")
+
 	healthCheckHandler := http.HandlerFunc(healthCheck)
 	v1.Handle("/health/", healthCheckHandler).Methods("GET")
 
