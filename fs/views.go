@@ -32,6 +32,16 @@ func StartEchoServer() {
 	subUrl.GET("/hello/", hello)
 	subUrl.GET("/login-view/", loginView)
 	subUrl.POST("/login", login)
+
+	subUrl.GET("/upload-notes-view/", uploadNotesView)
+	subUrl.GET("/upload-files-view/", uploadFilesView)
+
+	subUrl.POST("/upload/notes", uploadNotes)
+	subUrl.POST("/upload/files", uploadFiles)
+
+	subUrl.GET("/list/notes/", listNotes)
+	subUrl.GET("/list/files/", listFiles)
+
 	e.Logger.Fatal(e.Start(":8080"))
 }
 

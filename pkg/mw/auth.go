@@ -4,7 +4,6 @@ import (
 	userservice "blackbox-v2/internal/userservice"
 	"blackbox-v2/pkg/response"
 	"blackbox-v2/pkg/utils"
-	"log"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -29,12 +28,10 @@ func CookieMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		if err != nil {
 			return c.HTML(http.StatusUnauthorized, "Unauthorized")
 		}
-		log.Println(cookie.Value)
 		user, err := userservice.VerifyToken(cookie.Value)
 		if err != nil {
 			return c.HTML(http.StatusUnauthorized, "Unauthorized")
 		}
-		log.Println(user.UserCID)
 		c.Request().Header.Set("user_cid", user.UserCID)
 		return next(c)
 	}
