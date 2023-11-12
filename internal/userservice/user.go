@@ -45,6 +45,11 @@ func GetUserByCID(cid string) (*User, error) {
 	err := db.DB.Where("user_c_id = ?", cid).First(&user).Error
 	return &user, err
 }
+func GetUserByID(id uint) (User, error) {
+	var user User
+	err := db.DB.Where("id = ?", id).First(&user).Error
+	return user, err
+}
 
 type UserMetaData struct {
 	*gorm.Model
@@ -92,6 +97,11 @@ func (u *UserSession) Create() error {
 func (u *UserSession) Update() error {
 	err := db.DB.Save(u).Error
 	return err
+}
+func GetUserSessionBySessionID(sessionID string) (*UserSession, error) {
+	var user UserSession
+	err := db.DB.Preload("User").Where("session_id = ?", sessionID).First(&user).Error
+	return &user, err
 }
 
 // type UserSignupVerification struct {

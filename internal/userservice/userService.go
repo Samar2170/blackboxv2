@@ -164,22 +164,79 @@ func VerifyToken(token string) (User, error) {
 // 	return nil
 // }
 
-// func VerifyEmailOTP(userCID, otp string) error {
-// 	user, err := getUserByCID(userCID)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	uv, err := getUserVerificationByEmail(user.Email)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	if uv.OTP != otp {
-// 		return errors.New("invalid otp")
-// 	}
-// 	uv.Verified = true
-// 	err = updateModelInstance(uv)
-// 	if err != nil {
-// 		return err
-// 	}
-// 	return nil
-// }
+//	func VerifyEmailOTP(userCID, otp string) error {
+//		user, err := getUserByCID(userCID)
+//		if err != nil {
+//			return err
+//		}
+//		uv, err := getUserVerificationByEmail(user.Email)
+//		if err != nil {
+//			return err
+//		}
+//		if uv.OTP != otp {
+//			return errors.New("invalid otp")
+//		}
+//		uv.Verified = true
+//		err = updateModelInstance(uv)
+//		if err != nil {
+//			return err
+//		}
+//		return nil
+//	}
+
+type AppSession struct {
+	UserCID   string
+	SessionID string
+	ExpiresAt time.Time
+}
+
+func LoginAppUser(username string, password string) (AppSession, error) {
+	user, err := getUserByUsername(username)
+	if err != nil || user.Username == "" {
+		return AppSession{}, err
+	}
+
+	if !checkPasswordHashed(user.Password, password) {
+		return AppSession{}, errors.New("invalid password")
+	}
+	sessionToken := uuid.NewString()
+	expiresAt := time.Now().Add(120 * time.Second)
+	UserSession := UserSession{
+		UserID:    user.ID,
+		SessionID: sessionToken,
+		Token:     sessionToken,
+		ExpiresAt: expiresAt.Unix(),
+	}
+	err = models.CreateModelInstance(&UserSession)
+	if err != nil {
+		return AppSession{}, err
+	}
+	session := AppSession{
+		UserCID:   user.UserCID,
+		SessionID: sessionToken,
+		ExpiresAt: expiresAt,
+	}
+	return session, nil
+}
+
+func GetSession(sessionID string) (AppSession, error) {
+	var us *UserSession
+	us, err := GetUserSessionBySessionID(sessionID)
+	if err != nil {
+		return AppSession{}, err
+	}
+	expiresAtTime := time.Unix(us.ExpiresAt, 0)
+	if expiresAtTime.Before(time.Now()) {
+		return AppSession{}, errors.New("session expired")
+	}
+	user, err := GetUserByID(us.UserID)
+	if err != nil {
+		return AppSession{}, err
+	}
+	session := AppSession{
+		UserCID:   user.UserCID,
+		SessionID: us.SessionID,
+		ExpiresAt: expiresAtTime,
+	}
+	return session, nil
+}
