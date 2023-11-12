@@ -1,0 +1,9 @@
+<!Doctype html>
+<body>
+    <div class="container">
+    <ul>
+        {{range .files}}
+            <li><a href="/notes/{{.ID}}">{{.OgFileName}}</a></li>
+        {{end}}
+    </div>
+</body>

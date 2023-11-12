@@ -74,7 +74,7 @@ func LoginUser(username string, password string) (string, error) {
 		User:      *user,
 		UserID:    user.ID,
 		Token:     token,
-		ExpiresAt: time.Now().Add(24 * time.Hour).Unix(),
+		ExpiresAt: time.Now().Add(24 * 10 * time.Hour).Unix(),
 	}
 	err = models.CreateModelInstance(&us)
 	if err != nil {

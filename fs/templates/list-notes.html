@@ -1,0 +1,9 @@
+<!Doctype html>
+<body>
+    <div class="container">
+    <ul>
+        {{range .notes}}
+            <li><a href="/notes/{{.ID}}">{{.Heading}}</a></li>
+        {{end}}
+    </div>
+</body>
