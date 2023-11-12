@@ -1,6 +1,7 @@
 package api
 
 import (
+	"blackbox-v2/fs"
 	"blackbox-v2/pkg/mongoc"
 	"blackbox-v2/pkg/mw"
 	"blackbox-v2/pkg/response"
@@ -17,6 +18,15 @@ func RunServer() {
 	mux := mux.NewRouter()
 
 	v1 := mux.PathPrefix("/api/v1").Subrouter()
+
+	app := mux.PathPrefix("/app").Subrouter()
+	appLoginViewHandler := http.HandlerFunc(fs.LoginView)
+	app.Handle("/login-view/", appLoginViewHandler).Methods("GET")
+	appLoginHandler := http.HandlerFunc(fs.Login)
+	app.Handle("/login/", appLoginHandler).Methods("POST")
+	hello := http.HandlerFunc(fs.Hello)
+	app.Handle("/", hello).Methods("GET")
+
 	// v1.HandleFunc("/", hello).Methods("GET")
 	signupHandler := http.HandlerFunc(signup)
 	v1.Handle("/signup/", signupHandler).Methods("POST")
@@ -40,6 +50,9 @@ func RunServer() {
 	healthCheckHandler := http.HandlerFunc(healthCheck)
 	v1.Handle("/health/", healthCheckHandler).Methods("GET")
 
+	mux.Handle("/favicon.ico", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "Assets/favicon.ico")
+	}))
 	wrappedMux := mw.LogRequest(mux)
 	wrappedMux = mw.TokenMiddleware(wrappedMux)
 	mw.LogIt("Server running on " + host + ":8080")
