@@ -2,7 +2,7 @@ package main
 
 import (
 	"blackbox-v2/api"
-	"blackbox-v2/internal/notes"
+	"blackbox-v2/fs"
 	"blackbox-v2/jobber"
 	"blackbox-v2/pkg/mongoc"
 	"context"
@@ -41,11 +41,7 @@ func HandleDisconnections(ctx context.Context) {
 }
 
 func dev() {
-
-	err := notes.ParseNotes()
-	if err != nil {
-		panic(err)
-	}
+	fs.StartEchoServer()
 }
 
 func StartServer() {
