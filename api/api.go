@@ -42,8 +42,8 @@ func RunServer() {
 
 	wrappedMux := mw.LogRequest(mux)
 	wrappedMux = mw.TokenMiddleware(wrappedMux)
-	mw.LogIt("Server running on " + host + ":8080")
-	http.ListenAndServe(":8080", wrappedMux)
+	mw.LogIt("Server running on " + host + ":8081")
+	http.ListenAndServe(":8081", wrappedMux)
 }
 
 func Shutdown() {

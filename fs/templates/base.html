@@ -1,0 +1,46 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<main>
+    <body>
+     <header class="flex items-center justify-between bg-gray-800 text-white py-4 px-6">
+    <button class="text-white hover:text-gray-300">
+        +
+    </button>
+    <form class="flex items-center justify-center flex-grow mx-6">
+        <input class="bg-gray-700 text-white rounded-full py-2 px-4 w-full focus:outline-none focus:shadow-outline" type="text" placeholder="Search...">
+    </form>
+    <button class="text-white hover:text-gray-300">
+        Profile
+    </button>
+    </header>
+    <div class="row">
+        <div class="container flex h-screen">
+            <div class="col-3 text-center ">
+                <aside class="bg-gray-900 text-gray-500 h-screen w-64 space-y-6 py-7 px-2 absolute inset-y-0 left-0 transform -translate-x-full md:relative md:translate-x-0 transition duration-200 ease-in-out">
+                    <nav>
+                        <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                            Notes
+                        </a>
+                        <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                            Files
+                        </a>
+                        <a href="#" class="block py-2.5 px-4 rounded transition duration-200 hover:bg-gray-700 hover:text-white">
+                            Recent
+                        </a>
+                    </nav>
+                </aside>
+            </div>
+            <div class="col-9">
+    {{template "content" .}}
+
+                </div>
+        </div>
+
+    </div>        
+        
+    </body>
+</main>
