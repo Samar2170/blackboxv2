@@ -56,5 +56,10 @@ func StartServer() {
 		jobber.StartCronServer()
 		wg.Done()
 	}()
+	wg.Add(1)
+	go func() {
+		fs.StartEchoServer()
+		wg.Done()
+	}()
 	wg.Wait()
 }

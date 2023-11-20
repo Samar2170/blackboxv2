@@ -1,6 +1,6 @@
-{{define "hello"}}Hello, {{.}}!
-
+{{define "content"}}
 <div>
+    <h3> Hello {{.name}} </h3>
     <h3>Uploads <small>Upload a file</small></h3>
     <ul>
         <li> <a href="/app/upload-notes-view/"> Upload Note</a> </li>
@@ -13,5 +13,4 @@
         <li> <a href="/app/list/files/">View Files </a></li>
     </ul>
 </div>
-
 {{end}}
