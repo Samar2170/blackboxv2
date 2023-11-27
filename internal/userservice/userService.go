@@ -25,6 +25,13 @@ type UserClaim struct {
 	jwt.RegisteredClaims
 }
 
+func (uc *UserClaim) IsValid() bool {
+	if uc.UserCid == "" {
+		return false
+	}
+	return uc.ExpiresAt.Time.After(time.Now())
+}
+
 func getCIDForUser() string {
 	return uuid.New().String()
 }
@@ -116,23 +123,18 @@ func SignupUser(email, username, password string) (string, error) {
 	return user.UserCID, nil
 }
 
-func VerifyToken(token string) (User, error) {
-	empty := User{}
+func VerifyToken(token string) (UserClaim, error) {
 	claims := UserClaim{}
 	tkn, err := jwt.ParseWithClaims(token, &claims, func(token *jwt.Token) (interface{}, error) {
 		return signingKey, nil
 	})
 	if err != nil {
-		return empty, err
+		return claims, err
 	}
 	if !tkn.Valid {
-		return empty, errors.New("invalid token")
+		return claims, errors.New("invalid token")
 	}
-	user, err := GetUserByCID(claims.UserCid)
-	if err != nil {
-		return empty, err
-	}
-	return *user, nil
+	return claims, nil
 }
 
 // func sendEmailVerification(user *User) error {

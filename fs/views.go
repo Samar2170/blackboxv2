@@ -52,19 +52,10 @@ func hello(c echo.Context) error {
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
-	// tmpl := template.New("base")
-	// tmpl, err = tmpl.ParseFiles("fs/templates/hello/base.html")
-	// if err != nil {
-	// 	return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
-	// }
-	// tmpl := template.Must(template.ParseFiles("fs/templates/hello.html", "fs/templates/base.html"))
 	tmpl := template.Must(template.ParseFiles("fs/templates/base.html", "fs/templates/hello.html"))
 	if tmpl == nil {
 		log.Println("tmpl is nil")
 	}
-	// if err != nil {
-	// 	return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
-	// }
 	v := map[string]string{
 		"name": user.Username,
 	}
@@ -72,29 +63,14 @@ func hello(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 
-	// base, err := template.ParseFiles("fs/templates/base.html")
-	// if err != nil {
-	// 	return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
-	// }
-	// data := map[string]interface{}{
-	// 	"base": base,
-	// 	"name": user.Username,
-	// }
-	// tmpl, err := template.ParseFiles("fs/templates/hello.html")
-	// if err != nil {
-	// 	return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
-	// }
-	// if err := tmpl.Execute(c.Response().Writer, data); err != nil {
-	// 	return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
-	// }
 	return nil
-	// if err != nil {
-	// 	return c.Render(http.StatusOK, "hello", err.Error())
-	// }
-	// return c.Render(http.StatusOK, "hello", user.Username)
 }
 
 func loginView(c echo.Context) error {
+	userCid := c.Request().Header.Get("user_cid")
+	if userCid != "" {
+		return c.Redirect(http.StatusMovedPermanently, "/app/hello/")
+	}
 	fp := path.Join("fs", "templates", "login.html")
 	tmpl, err := template.ParseFiles(fp)
 	if err != nil {
