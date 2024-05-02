@@ -12,7 +12,7 @@ import (
 
 func uploadNotesView(c echo.Context) error {
 	fp := path.Join("fs", "templates", "upload-notes.html")
-	tmpl, err := template.ParseFiles(fp)
+	tmpl, err := template.ParseFiles("fs/templates/base.html", fp)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
@@ -24,7 +24,7 @@ func uploadNotesView(c echo.Context) error {
 
 func uploadFilesView(c echo.Context) error {
 	fp := path.Join("fs", "templates", "upload-files.html")
-	tmpl, err := template.ParseFiles(fp)
+	tmpl, err := template.ParseFiles("fs/templates/base.html", fp)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}

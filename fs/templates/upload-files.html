@@ -1,15 +1,63 @@
-<!Doctype html>
-<head>
-    <title>Home</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <h1>Upload File</h1>
+{{define "content"}}
+<div class="bg-gray-100 flex items-center justify-center h-4/5">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-sm w-full">
+        <div class="flex  space-x-2 mb-6">
+            <!--<img src="https://unsplash.it/40/40?image=883" alt="Lock Icon" class="rounded-full">-->
+            <h1 class="text-xl font-semibold">File Upload</h1> 
+        </div>
+        <p class="text-sm text-gray-600 mb-6">Upload File</p>
+        <form action="/app/upload/files" method="post" enctype="multipart/form-data">
+            <div>
+                <label for="file" class="text-sm font-medium text-gray-700 block mb-2">Choose a file</label>
+                <input type="file" id="file" name="file" class="password-input form-input block w-full border border-gray-300 rounded-md shadow-sm" required>
+            </div>
+            <div class="text-sm space-y-2 my-2">
+                <ul class="list-disc pl-5 space-y-1">
+                    <li>File should be less than X bytes</li>
+                    <li>Accepted File extensions</li>
+                    <li>pdf, xlsx, txt</li>
+                </ul>
+            </div>
+            <div class="flex justify-between">
+                <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring focus:border-blue-300">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    
+</div>
+  <!-- using two similar templates for simplicity in js code -->
+
+
+<!--
+<div class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded shadow-md max-w-md w-full">
+        <h2 class="text-2xl font-semibold mb-4">File Upload Form</h2>
+        <form action="/app/upload/files" method="post" enctype="multipart/form-data">
+            
+            <div class="mb-4">
+                <label for="file" class="block text-sm font-medium text-gray-600">Choose a file</label>
+                <input type="file" id="file" name="file" class="mt-1 p-2 border border-gray-300 rounded w-full">
+            </div>
+            <div class="mb-4">
+                <label for="file" class="block text-sm font-medium text-gray-600">Choose a file</label>
+                <input type="file" id="file" name="file" class="mt-1 p-2 border border-gray-300 rounded w-full">
+            </div>
+
+            
+            <button type="submit" class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300">
+                Upload File
+            </button>
+        </form>
+    </div>
+
+</div> <h1>Upload File</h1>
     <form action="/app/upload/files" method="post" enctype="multipart/form-data">
         <input type="file" name="file">
         <button type="submit" name="submit">Upload</button>
     </form>
     <br>
     <br>
-    <br>
-</body>
+    <br> 
+-->
+{{end}}
